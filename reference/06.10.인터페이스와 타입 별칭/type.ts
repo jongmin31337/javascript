@@ -39,6 +39,7 @@ export interface IUser {
 // 인터페이스는 특별하게도 이렇게 이름이 중복되면
 // 확장되는 효과를 만들어내나
 // typealias는 지원을 안함함
+// 권장하지않음.
 export type TUser = {
     readonly ID: number;
     readonly NAME: string;
@@ -51,3 +52,88 @@ export type TUser = {
 // export type TUser = {
 //     address?: string;
 // }
+
+
+export interface IUserProfile extends IUser { // TypeALIAS도 올수있음.
+    profileImage: string;
+    github?: string;
+    twitter?: string;
+}
+
+export type TUserProfile = IUser & { // 인터페이스, TypeAlias 상관없음
+    profileImage: string;
+    github?: string;
+    twitter?: string;
+}
+
+export interface Color {
+    fontColor: string;
+    strokeColor: string;
+    borderColor: string;
+    backgroundColor: string;
+}
+
+export type Display = {
+    display: 'none' | 'block';
+    visibility: boolean;
+    opacity: number;
+}
+
+export type Geometry = {
+    width: number;
+    height: number;
+    padding: number;
+    margin: number;
+}
+
+
+export interface IStyle extends Color, Display, Geometry {
+    tagName: string;
+}
+
+export type TStyle = Color & Display & Geometry & {
+    tagName: string;
+}
+
+
+export interface IOnlyNumberValueObject {
+    [key: string] : number;
+}
+
+export type TOnlyNumberValueObject = {
+    [prop: string] : boolean;
+}
+
+export interface IGetApi {
+    (url: string, search?: string) : Promise<string>; // 인자 : 리턴
+}
+
+
+//type alias 함수 타이핑 시  표기법이 다름
+// 괄호로 묶거나 그럴경우 :  
+// 직접 이퀄하고 함수 규격 작성 시는 활살표
+export type TGetApi = {
+    (url: string, search?: string) : Promise<string>;
+}
+
+export interface IRect {
+    id: number;
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+}
+
+export interface IReactConstructor {
+    new (x: number, y: number, width: number, height: number): IRect;
+}
+
+
+// 정리!!!
+// 타입알리아스 , 인터페이스
+// 타입 알리와스와 인터페이스의 차이점은
+// 구체적인 차이점이라고 하면은 문법적인 사항 말고도, 인터페이스에는 없는 내용이 타입알리에스에 들어있따
+// 구체적인 타입읆 명시할 수 있따는 거다.
+// 데이터를 표현할 때는 타입 알리아스를 쓰고
+// 메소드와 같은 구체적인 행위까지 포함된 객체를 디자인할 때는 인터페이스 위주로 쓴다.
+// 당연히 클래스같은경우는 데이터와 메소드를 포괄하기 떼문에 인터페이스가 좋다.
